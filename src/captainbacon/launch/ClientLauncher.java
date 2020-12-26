@@ -1,6 +1,12 @@
 package captainbacon.launch;
 
+import captainbacon.util.logging.Message;
 import javafx.application.Application;
+import javafx.print.PageLayout;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ClientLauncher extends Application {
@@ -15,7 +21,7 @@ public class ClientLauncher extends Application {
     public void init() {
 
     }
-
+Button button1, button2;
     /**
      * This function sets up the view (GUI) and controller of Captain Bacon. It is
      * automatically called when the application is launched. Do Not Call.
