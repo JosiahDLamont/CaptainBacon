@@ -1,12 +1,7 @@
 package captainbacon.launch;
 
-import captainbacon.util.logging.Message;
 import javafx.application.Application;
-import javafx.print.PageLayout;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ClientLauncher extends Application {

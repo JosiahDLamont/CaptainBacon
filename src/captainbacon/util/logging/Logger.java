@@ -17,7 +17,10 @@ public class Logger extends Thread {
      * @invarient messagesToLog != null
      * @invarient logOutput != null
      * @invarient loggerLock != null
+     * @invarient [The logger thread name is either DEFAULT_NAME or user-provided.]
      */
+
+    public static final String DEFAULT_NAME = "Logger";
 
     private static final int DEFAULT_CYCLE_DELAY = 1000;
 
@@ -30,24 +33,32 @@ public class Logger extends Thread {
     private boolean isRunning;
     private Lock loggerLock = new ReentrantLock();
 
-
     /**
      * Constructs a Logger with a minimum priority of Message.BASE_PRIORITY
      *
      * @post [logOutput is a StandardLogOutput.]
+     * @post [The thread name is the DEFAULT_NAME.]
      */
     public Logger() {
         logOutput = new StandardLogOutput();
+        setName(DEFAULT_NAME);
     }
 
     /**
      * Constructs a Logger with a minimum priority of Message.BASE_PRIORITY
      *
      * @pre output != null
+     * @pre name != null
+     *
      * @post this.logOutput = logOutput
+     * @post [The thread name is name.]
+     *
+     * @param logOutput is the ILogOutput implementation for outputting logs.
+     * @param name is the name for the Logger thread.
      */
-    public Logger(ILogOutput logOutput) {
+    public Logger(ILogOutput logOutput, String name) {
         this.logOutput = logOutput;
+        setName(name);
     }
 
     /**
@@ -67,14 +78,14 @@ public class Logger extends Thread {
             // Print all messages accumulated in the cycle.
             while (!messagesToLog.isEmpty()) {
                 Message message = messagesToLog.remove();
-                logOutput.outputInfoLog(message.getSource(), message.getMessage());
+                logOutput.outputLog(message.getSource(), message.getMessage());
             }
 
             // Attempt to wait the specified cycle delay.
             try {
                 sleep(cycleDelayMillis);
             } catch (InterruptedException e) {
-                // TODO: Log error/warning here?
+                logMessage(new Message(getName(), "Log gathering cycle interrupted!", Message.MAX_PRIORITY));
             }
 
             loggerLock.lock();

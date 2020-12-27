@@ -2,7 +2,7 @@ package captainbacon.util.logging;
 
 public class StandardLogOutput implements ILogOutput {
     @Override
-    public void outputInfoLog(String source, String message) {
-        System.out.println("[" + source + "]: " + message);
+    public void outputLog(String source, String message) {
+        System.out.println("(" + source + "): " + message);
     }
 }

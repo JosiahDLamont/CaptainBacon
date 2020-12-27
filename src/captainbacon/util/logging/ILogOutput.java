@@ -16,5 +16,5 @@ public interface ILogOutput {
      * @param source is the source of the message (normally a thread name).
      * @param message is the log message to output.
      */
-    void outputInfoLog(String source, String message);
+    void outputLog(String source, String message);
 }

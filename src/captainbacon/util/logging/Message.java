@@ -7,12 +7,15 @@ package captainbacon.util.logging;
 public class Message {
 
     /**
-     * @invarient [message is constant.]
      * @invarient MIN_PRIORITY <= priority <= MAX_PRIORITY
+     * @invarient SOURCE != null
+     * @invarient MESSAGE != null
      */
 
     public static final int MIN_PRIORITY = 0;
+    public static final int LOW_PRIORITY = 2;
     public static final int BASE_PRIORITY = 5;
+    public static final int HIGH_PRIORITY = 8;
     public static final int MAX_PRIORITY = 10;
 
     private final String SOURCE;

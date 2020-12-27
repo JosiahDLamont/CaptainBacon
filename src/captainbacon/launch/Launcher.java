@@ -2,9 +2,6 @@ package captainbacon.launch;
 
 import captainbacon.util.logging.Logger;
 
-import javax.lang.model.element.ExecutableElement;
-import java.util.concurrent.ExecutorService;
-
 /**
  * @author Philip Cooper
  * This class contains the main method and launches the controller and the view
