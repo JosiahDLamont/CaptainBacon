@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Philip Cooper
  * This class defines a logger that handles messages of varying priority in its own thread.
  */
-public class Logger extends Thread {
+public class Logger extends Thread implements ILogger {
 
     /**
      * @invarient Message.MIN_PRIORITY <= minPriority <= Message.MAX_PRIORITY
