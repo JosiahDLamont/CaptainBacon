@@ -22,6 +22,8 @@ public abstract class Game extends Thread {
     private float realTickRate;
     private long startTimeMillis;
 
+    private boolean gameOver = false;
+
     /**
      * Constructs a game thread with the given logger and thread name.
      *
@@ -47,14 +49,21 @@ public abstract class Game extends Thread {
      * @post [The Game has ended.]
      */
     @Override
-    public abstract void run();
+    public void run() {
+
+    }
 
     /**
      * This method should process player controls and interactions for each game loop cycle.
      */
-    public abstract void handlePlayer();
+    protected abstract void handlePlayer();
 
-
+    /**
+     * This method notifies the game that it should end as soon as possible.
+     */
+    public void endGame() {
+        gameOver = true;
+    }
 
 
     /**
@@ -83,7 +92,7 @@ public abstract class Game extends Thread {
      *
      * @post startTimeMillis = [the current system time]
      */
-    public void startTick() {
+    protected void startTick() {
         startTimeMillis = System.currentTimeMillis();
     }
 
@@ -98,7 +107,7 @@ public abstract class Game extends Thread {
      * @post [The tick has lasted at least 1 / TICK_RATE seconds.]
      * @post realTickRate = [the actual rate at which a tick's work is executed]
      */
-    public void endTick() {
+    protected void endTick() {
         long elapsedTime = System.currentTimeMillis() - startTimeMillis;
 
         // Calculate the real tick rate in seconds.
