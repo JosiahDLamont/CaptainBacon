@@ -11,11 +11,11 @@ public class ExampleClass {
     /**
      * @invarient THIS_IS_A_CONSTANT = 5
      * @invarient 0 <= thisIsAPrimitiveVariable <= THIS_IS_A_CONSTANT
-     * @invarient [PITCH_VAR_PERIOD is constant]
+     * @invarient [pitchVarPeriod is constant]
      */
 
     private static final int THIS_IS_A_CONSTANT = 5;
-    private final float PITCH_VAR_PERIOD;
+    private final float pitchVarPeriod;
 
     private int thisIsAPrimitiveVariable;
 
@@ -24,12 +24,12 @@ public class ExampleClass {
      * when yodeling.
      *
      * @pre 0 < pitchVarPeriod < 10
-     * @post PITCH_VAR_PERIOD = pitchVarPeriod
+     * @post this.pitchVarPeriod = pitchVarPeriod
      *
-     * @param pitchVarPeriod The base amount of time between pitch variations while yodeling (seconds).
+     * @param pitchVarPeriod is the base amount of time between pitch variations while yodeling (seconds).
      */
     public ExampleClass(float pitchVarPeriod) {
-        PITCH_VAR_PERIOD = pitchVarPeriod;
+        this.pitchVarPeriod = pitchVarPeriod;
     }
 
     /**
@@ -37,8 +37,8 @@ public class ExampleClass {
      *
      * @pre 0 <= square
      *
-     * @param square is the number to find the root of
-     * @return the square root of square
+     * @param square is the number to find the root of.
+     * @return the square root of square.
      */
     public static double root(double square) {
 
@@ -56,8 +56,8 @@ public class ExampleClass {
      * @post thisIsAPrimitiveVariable = #thisIsAPrimitiveVariable + 1 iff thisIsAPrimitiveVariable < THIS_IS_A_CONSTANT
      *       else thisIsAPrimitiveVariable = 0
      *
-     * @param exampleArg1 provides the number of times to repeat a given yodel
-     * @param exampleArg2 provides the maximum allowed variance from the base pitch variance period in seconds
+     * @param exampleArg1 provides the number of times to repeat a given yodel.
+     * @param exampleArg2 provides the maximum allowed variance from the base pitch variance period in seconds.
      */
     public void yodel(int exampleArg1, float exampleArg2) {
 

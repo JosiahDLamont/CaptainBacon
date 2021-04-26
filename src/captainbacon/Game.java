@@ -10,15 +10,15 @@ import captainbacon.util.logging.Message;
 public abstract class Game extends Thread {
 
     /**
-     * @invarient LOGGER != null
+     * @invarient logger != null
      */
 
-    private final Logger LOGGER;
+    private final Logger logger;
     private static final String INFO_SUBSRC = ".info";
     private static final String WARN_SUBSRC = ".warn";
     private static final String ERR_SUBSRC = ".err";
 
-    private final int TICK_RATE;
+    private final int tickRate;
     private float realTickRate;
     private long startTimeMillis;
 
@@ -30,15 +30,15 @@ public abstract class Game extends Thread {
      * @pre logger != null
      * @pre name != null
      *
-     * @post LOGGER = logger
+     * @post this.logger = logger
      *
      * @param logger is the logger to use as the game thread's logger.
      * @param name is the name for the game thread.
      */
     public Game(Logger logger, String name, int tickRate) {
-        LOGGER = logger;
+        this.logger = logger;
         setName(name);
-        TICK_RATE = tickRate;
+        this.tickRate = tickRate;
     }
 
 
@@ -71,7 +71,7 @@ public abstract class Game extends Thread {
      *         in practice.
      */
     public int getTickRate() {
-        return TICK_RATE;
+        return tickRate;
     }
 
     /**
@@ -114,10 +114,10 @@ public abstract class Game extends Thread {
         realTickRate = 1000F / elapsedTime;
 
         // Determine if the elapsed time is less than the target milliseconds per tick.
-        if (elapsedTime < 1000 / TICK_RATE) {
+        if (elapsedTime < 1000 / tickRate) {
             // There is extra time in the tick, try to sleep it off.
             try {
-                sleep(1000 / TICK_RATE - elapsedTime);
+                sleep(1000 / tickRate - elapsedTime);
             } catch (InterruptedException e) {
                 logErrMessage("Tick interrupted!");
             }
@@ -131,35 +131,35 @@ public abstract class Game extends Thread {
      * Logs an information message in the game thread.
      *
      * @pre message != null
-     * @post [message has been logged to LOGGER as an info message.]
+     * @post [message has been logged to logger as an info message.]
      *
      * @param message is the information message to log.
      */
     public void logInfoMessage(String message) {
-        LOGGER.logMessage(new Message(getName() + INFO_SUBSRC, message));
+        logger.logMessage(new Message(getName() + INFO_SUBSRC, message));
     }
 
     /**
      * Logs a warning message in the game thread.
      *
      * @pre message != null
-     * @post [message has been logged to LOGGER as a warn message.]
+     * @post [message has been logged to logger as a warn message.]
      *
      * @param message is the warning message to log.
      */
     public void logWarnMessage(String message) {
-        LOGGER.logMessage(new Message(getName() + WARN_SUBSRC, message, Message.HIGH_PRIORITY));
+        logger.logMessage(new Message(getName() + WARN_SUBSRC, message, Message.HIGH_PRIORITY));
     }
 
     /**
      * Logs an error message in the game thread.
      *
      * @pre message != null
-     * @post [message has been logged to LOGGER as an err message.]
+     * @post [message has been logged to logger as an err message.]
      *
      * @param message is the error message to log.
      */
     public void logErrMessage(String message) {
-        LOGGER.logMessage(new Message(getName() + ERR_SUBSRC, message, Message.MAX_PRIORITY));
+        logger.logMessage(new Message(getName() + ERR_SUBSRC, message, Message.MAX_PRIORITY));
     }
 }
