@@ -16,7 +16,7 @@ public class ClientLauncher extends Application {
     public void init() {
 
     }
-Button button1, button2;
+
     /**
      * This function sets up the view (GUI) and controller of Captain Bacon. It is
      * automatically called when the application is launched. Do Not Call.

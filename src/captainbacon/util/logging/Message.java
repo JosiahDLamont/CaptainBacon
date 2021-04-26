@@ -18,8 +18,8 @@ public class Message {
     public static final int HIGH_PRIORITY = 8;
     public static final int MAX_PRIORITY = 10;
 
-    private final String SOURCE;
-    private final String MESSAGE;
+    private final String source;
+    private final String message;
     private int priority;
 
     /**
@@ -36,8 +36,8 @@ public class Message {
      * @param message is the message to log.
      */
     public Message(String source, String message) {
-        SOURCE = source;
-        MESSAGE = message;
+        this.source = source;
+        this.message = message;
         priority = BASE_PRIORITY;
     }
 
@@ -57,17 +57,17 @@ public class Message {
      * @param priority is the priority of the message.
      */
     public Message(String source, String message, int priority) {
-        SOURCE = source;
-        MESSAGE = message;
+        this.source = source;
+        this.message = message;
         this.priority = priority;
     }
 
     public String getSource() {
-        return SOURCE;
+        return source;
     }
 
     public String getMessage() {
-        return MESSAGE;
+        return message;
     }
 
     public int getPriority() {
