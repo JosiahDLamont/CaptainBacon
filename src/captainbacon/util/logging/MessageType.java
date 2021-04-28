@@ -21,15 +21,27 @@ public enum MessageType {
     }
 
     /**
-     * Determines if the current message type is of equal or greater priority
-     * to the given message type.
+     * Determines if the current message type is of greater priority
+     * than the given message type.
      *
      * @param messageType is the message type to which to compare this message type.
-     * @return true if this message type has a priority equal to or greater than that
+     * @return true if this message type has a priority greater than that
      *         of the given message type.
      */
-    public boolean atOrAbove(MessageType messageType) {
-        return priority >= messageType.priority;
+    public boolean higherThan(MessageType messageType) {
+        return priority > messageType.priority;
+    }
+
+    /**
+     * Determines if the current message type is of lower priority than
+     * the given message type.
+     *
+     * @param messageType is the message type to which to compare this message type.
+     * @return true if this message type has a priority less than that
+     *         of the given message type.
+     */
+    public boolean lessThan(MessageType messageType) {
+        return priority < messageType.priority;
     }
 
     public String getTypeName() {

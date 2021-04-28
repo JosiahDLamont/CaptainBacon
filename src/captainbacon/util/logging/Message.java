@@ -2,64 +2,38 @@ package captainbacon.util.logging;
 
 /**
  * @author Philip Cooper
- * This class defines a basic logger message with a priority and a source.
+ * This class defines a basic logger message with a type and a source.
  */
-public class Message {
+class Message {
 
     /**
-     * @invarient MIN_PRIORITY <= priority <= MAX_PRIORITY
-     * @invarient SOURCE != null
-     * @invarient MESSAGE != null
+     * @invarient type != null
+     * @invarient source != null
+     * @invarient message != null
      */
-
-    public static final int MIN_PRIORITY = 0;
-    public static final int LOW_PRIORITY = 2;
-    public static final int BASE_PRIORITY = 5;
-    public static final int HIGH_PRIORITY = 8;
-    public static final int MAX_PRIORITY = 10;
 
     private final String source;
     private final String message;
-    private int priority;
+    private final MessageType type;
+
 
     /**
-     * Constructs a message with the base priority.
+     * Constructs a message of the given type.
      *
+     * @param source  is the source (usually a thread) of the message.
+     * @param message is the message to log.
+     * @param type    is the type of message.
      * @pre source != null
      * @pre message != null
-     *
-     * @post SOURCE = source
-     * @post MESSAGE = message
-     * @post priority = BASE_PRIORITY
-     *
-     * @param source is the source (usually a thread) of the message.
-     * @param message is the message to log.
+     * @pre type != null
+     * @post this.source = source
+     * @post this.message = message
+     * @post this.type = type
      */
-    public Message(String source, String message) {
+    public Message(String source, String message, MessageType type) {
         this.source = source;
         this.message = message;
-        priority = BASE_PRIORITY;
-    }
-
-    /**
-     * Constructs a message with the given priority.
-     *
-     * @pre source != null
-     * @pre message != null
-     * @pre MIN_PRIORITY <= priority <= MAX_PRIORITY
-     *
-     * @post SOURCE = source
-     * @post MESSAGE = message
-     * @post this.priority = priority
-     *
-     * @param source is the source (usually a thread) of the message.
-     * @param message is the message to log.
-     * @param priority is the priority of the message.
-     */
-    public Message(String source, String message, int priority) {
-        this.source = source;
-        this.message = message;
-        this.priority = priority;
+        this.type = type;
     }
 
     public String getSource() {
@@ -70,16 +44,7 @@ public class Message {
         return message;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    /**
-     * @pre MIN_PRIORITY <= priority <= MAX_PRIORITY
-     * @param priority is the priority of the message with the priority increasing as the value
-     *                 moves from MIN_PRIORITY to MAX_PRIORITY.
-     */
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public MessageType getType() {
+        return type;
     }
 }

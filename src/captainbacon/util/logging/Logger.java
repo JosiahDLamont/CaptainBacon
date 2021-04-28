@@ -7,12 +7,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Philip Cooper
- * This class defines a logger that handles messages of varying priority in its own thread.
+ * This class defines a logger that handles messages of varying types in its own thread.
  */
 public class Logger extends Thread implements ILogger {
 
     /**
-     * @invarient Message.MIN_PRIORITY <= minPriority <= Message.MAX_PRIORITY
+     * @invarient logLevel != null
      * @invarient 0 <= cycleDelayMillis
      * @invarient messagesToLog != null
      * @invarient logOutput != null
@@ -22,9 +22,9 @@ public class Logger extends Thread implements ILogger {
 
     public static final String DEFAULT_NAME = "Logger";
 
-    private static final int DEFAULT_CYCLE_DELAY = 1000;
+    private static final int DEFAULT_CYCLE_DELAY = 500;
 
-    private int minPriority = Message.BASE_PRIORITY;
+    private MessageType logLevel = MessageType.INFO;
     private int cycleDelayMillis = DEFAULT_CYCLE_DELAY;
     private Queue<Message> messagesToLog = new ConcurrentLinkedQueue<>();
 
@@ -34,7 +34,8 @@ public class Logger extends Thread implements ILogger {
     private Lock loggerLock = new ReentrantLock();
 
     /**
-     * Constructs a Logger with a minimum priority of Message.BASE_PRIORITY
+     * Constructs a Logger with a log level (the lowest priority message type to log)
+     * of MessageType.INFO and the default logger name.
      *
      * @post [logOutput is a StandardLogOutput.]
      * @post [The thread name is the DEFAULT_NAME.]
@@ -45,7 +46,8 @@ public class Logger extends Thread implements ILogger {
     }
 
     /**
-     * Constructs a Logger with a minimum priority of Message.BASE_PRIORITY
+     * Constructs a Logger with a log level (the lowest priority message type to log)
+     * of MessageType.INFO and the given logger output and name.
      *
      * @pre output != null
      * @pre name != null
@@ -85,7 +87,7 @@ public class Logger extends Thread implements ILogger {
             try {
                 sleep(cycleDelayMillis);
             } catch (InterruptedException e) {
-                logMessage(new Message(getName(), "Log gathering cycle interrupted!", Message.MAX_PRIORITY));
+                logMessage(getName(), "Log gathering cycle interrupted!", MessageType.ERROR);//TODO: warning instead?
             }
 
             loggerLock.lock();
@@ -94,19 +96,82 @@ public class Logger extends Thread implements ILogger {
         loggerLock.unlock();
     }
 
+
     /**
-     * This method provides the given message to the logger assuming it has sufficient priority.
+     * This method provides the given message to the logger assuming its type has sufficient priority.
      *
-     * @pre message != null
-     * @post [messagesToLog contains message] iff message.getPriority() >= minPriority
+     * @pre source != null and [is the source of the message]
+     * @pre message != null and [contains the contents of the message]
+     * @pre type != null
      *
-     * @param message is the message to attempt to log.
+     * @post [messagesToLog contains a message with the given source, contents, and type]
+     *       iff not type.lessThan(logLevel)
+     *
+     * @param source is the source of the message to attempt to log.
+     * @param message is the contents of the message to attempt to log.
+     * @param type is the type of the message to attempt to log.
      */
-    public void logMessage(Message message) {
-        if (message.getPriority() >= minPriority) {
-            messagesToLog.add(message);
+    public void logMessage(String source, String message, MessageType type) {
+        if (!type.lessThan(logLevel)) {
+            messagesToLog.add(new Message(source, message, type));
         }
     }
+
+    /**
+     * This method provides a simple way of logging a debug message with a given source.
+     *
+     * @pre source != null and [is the source of the message]
+     * @pre message != null and [contains the contents of the message]
+     *
+     * @param source is the source of the message.
+     * @param message is the debug message to log.
+     */
+    public void logDebugMessage(String source, String message) {
+        logMessage(source, message, MessageType.DEBUG);
+    }
+
+    /**
+     * This method provides a simple way of logging an information message with a given thread
+     * as its source.
+     *
+     * @pre source != null and [is the source of the message]
+     * @pre message != null and [contains the contents of the message]
+     *
+     * @param source is the source of the message.
+     * @param message is the info message to log.
+     */
+    public void logInfoMessage(String source, String message) {
+        logMessage(source, message, MessageType.INFO);
+    }
+
+    /**
+     * This method provides a simple way of logging a warning message with a given thread
+     * as its source.
+     *
+     * @pre source != null and [is the source of the message]
+     * @pre message != null and [contains the contents of the message]
+     *
+     * @param source is the source of the message.
+     * @param message is the warning message to log.
+     */
+    public void logWarnMessage(String source, String message) {
+        logMessage(source, message, MessageType.WARNING);
+    }
+
+    /**
+     * This method provides a simple way of logging an error message with a given thread
+     * as its source.
+     *
+     * @pre source != null and [is the source of the message]
+     * @pre message != null and [contains the contents of the message]
+     *
+     * @param source is the source of the message.
+     * @param message is the error message to log.
+     */
+    public void logErrorMessage(String source, String message) {
+        logMessage(source, message, MessageType.ERROR);
+    }
+
 
     /**
      * Tells the logger to stop running.
@@ -120,8 +185,8 @@ public class Logger extends Thread implements ILogger {
         loggerLock.unlock();
     }
 
-    public int getMinPriority() {
-        return minPriority;
+    public MessageType getLogLevel() {
+        return logLevel;
     }
 
     public int getCycleDelay() {
@@ -129,11 +194,11 @@ public class Logger extends Thread implements ILogger {
     }
 
     /**
-     * @pre Message.MIN_PRIORITY <= priority <= Message.MAX_PRIORITY
-     * @param priority is the minimum priority for messages the logger will log.
+     * @pre logLevel != null
+     * @param logLevel is the message type with the minimum priority that the logger will log.
      */
-    public void setMinPriority(int priority) {
-        minPriority = priority;
+    public void setLogLevel(MessageType logLevel) {
+        this.logLevel = logLevel;
     }
 
     /**

@@ -14,8 +14,8 @@ public class CaptainBaconClient extends Game implements IClient {
     private static final String NAME = "Client";
     private static final int TICK_RATE = 60;
 
-    public CaptainBaconClient(Logger logger) {
-        super(logger, NAME, TICK_RATE);
+    public CaptainBaconClient() {
+        super(NAME, TICK_RATE);
     }
 
     @Override

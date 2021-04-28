@@ -1,7 +1,6 @@
 package captainbacon.server;
 
 import captainbacon.Game;
-import captainbacon.util.logging.Logger;
 
 /**
  * This class is the primary controller on the server-side
@@ -16,8 +15,8 @@ public class CaptainBaconServer extends Game implements IServer {
     private static final String NAME = "Server";
     private static final int TICK_RATE = 60;
 
-    public CaptainBaconServer(Logger logger) {
-        super(logger, NAME, TICK_RATE);
+    public CaptainBaconServer() {
+        super(NAME, TICK_RATE);
     }
 
     @Override

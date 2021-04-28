@@ -1,7 +1,6 @@
 package captainbacon;
 
 import captainbacon.util.logging.Logger;
-import captainbacon.util.logging.Message;
 
 /**
  * @author Philip Cooper
@@ -9,11 +8,9 @@ import captainbacon.util.logging.Message;
  */
 public abstract class Game extends Thread {
 
-    /**
-     * @invarient logger != null
-     */
+    // Creates a logger with default name and output; TODO: customize via command line args?
+    public final Logger logger = new Logger();
 
-    private final Logger logger;
     private static final String INFO_SUBSRC = ".info";
     private static final String WARN_SUBSRC = ".warn";
     private static final String ERR_SUBSRC = ".err";
@@ -25,18 +22,13 @@ public abstract class Game extends Thread {
     private boolean gameOver = false;
 
     /**
-     * Constructs a game thread with the given logger and thread name.
+     * Constructs a game thread with the given thread name.
      *
-     * @pre logger != null
      * @pre name != null
      *
-     * @post this.logger = logger
-     *
-     * @param logger is the logger to use as the game thread's logger.
      * @param name is the name for the game thread.
      */
-    public Game(Logger logger, String name, int tickRate) {
-        this.logger = logger;
+    public Game(String name, int tickRate) {
         setName(name);
         this.tickRate = tickRate;
     }
@@ -119,47 +111,9 @@ public abstract class Game extends Thread {
             try {
                 sleep(1000 / tickRate - elapsedTime);
             } catch (InterruptedException e) {
-                logErrMessage("Tick interrupted!");
+                logger.logErrorMessage(this.getName() + Game.class.getEnclosingMethod().getName(),
+                        "Tick interrupted!");
             }
         }
-    }
-
-
-
-
-    /**
-     * Logs an information message in the game thread.
-     *
-     * @pre message != null
-     * @post [message has been logged to logger as an info message.]
-     *
-     * @param message is the information message to log.
-     */
-    public void logInfoMessage(String message) {
-        logger.logMessage(new Message(getName() + INFO_SUBSRC, message));
-    }
-
-    /**
-     * Logs a warning message in the game thread.
-     *
-     * @pre message != null
-     * @post [message has been logged to logger as a warn message.]
-     *
-     * @param message is the warning message to log.
-     */
-    public void logWarnMessage(String message) {
-        logger.logMessage(new Message(getName() + WARN_SUBSRC, message, Message.HIGH_PRIORITY));
-    }
-
-    /**
-     * Logs an error message in the game thread.
-     *
-     * @pre message != null
-     * @post [message has been logged to logger as an err message.]
-     *
-     * @param message is the error message to log.
-     */
-    public void logErrMessage(String message) {
-        logger.logMessage(new Message(getName() + ERR_SUBSRC, message, Message.MAX_PRIORITY));
     }
 }
