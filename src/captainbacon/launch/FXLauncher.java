@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ClientLauncher extends Application {
+public class FXLauncher extends Application {
 
     /**
      * This function is automatically called when the application is launched. Do Not Call.
