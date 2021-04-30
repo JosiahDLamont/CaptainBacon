@@ -7,7 +7,7 @@ import captainbacon.util.logging.Message;
  * @author Philip Cooper
  * Defines some basic functionality required for a game thread.
  */
-public abstract class Game extends Thread {
+public class Game extends Thread {
 
     /**
      * @invarient logger != null
@@ -50,13 +50,15 @@ public abstract class Game extends Thread {
      */
     @Override
     public void run() {
-
+        // TODO - Make a game
     }
 
     /**
      * This method should process player controls and interactions for each game loop cycle.
      */
-    protected abstract void handlePlayer();
+    protected void handlePlayer(){
+        // TODO - Make a player
+    }
 
     /**
      * This method notifies the game that it should end as soon as possible.
