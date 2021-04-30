@@ -1,6 +1,7 @@
 package captainbacon.util.logging;
 
 /**
+ * @author Philip Cooper
  * Defines the basic functionality of a log output.
  */
 public interface ILogOutput {

@@ -97,20 +97,6 @@ public class Logger extends Thread implements ILogger {
     }
 
 
-    /**
-     * This method provides the given message to the logger assuming its type has sufficient priority.
-     *
-     * @pre source != null and [is the source of the message]
-     * @pre message != null and [contains the contents of the message]
-     * @pre type != null
-     *
-     * @post [messagesToLog contains a message with the given source, contents, and type]
-     *       iff not type.lessThan(logLevel)
-     *
-     * @param source is the source of the message to attempt to log.
-     * @param message is the contents of the message to attempt to log.
-     * @param type is the type of the message to attempt to log.
-     */
     public void logMessage(String source, String message, MessageType type) {
         if (!type.lessThan(logLevel)) {
             messagesToLog.add(new Message(source, message, type));
