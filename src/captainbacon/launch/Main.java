@@ -1,5 +1,6 @@
 package captainbacon.launch;
 
+import captainbacon.Game;
 import captainbacon.util.logging.Logger;
 
 /**

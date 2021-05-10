@@ -28,7 +28,6 @@ public class FXLauncher extends Application {
      */
     @Override
     public void start(Stage window) {
-
     }
 
     /**
