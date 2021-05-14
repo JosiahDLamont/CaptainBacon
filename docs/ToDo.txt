@@ -1,6 +1,3 @@
 To Do List for Renderer:
     1. Finish Display & Layer Classes & documentation
-        --potential problems:
-            -How to ensure no mixing of FX and potential other implementations while maintaining encapsulation
-             (ex: Display requires Layer, not any ILayer)
     2. Design Renderer class & interactions with Game

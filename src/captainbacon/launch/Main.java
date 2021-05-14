@@ -23,7 +23,7 @@ public class Main {
          */
 
         // Launch the logger here.
-        LOGGER.start();
+      //  LOGGER.start();
 
         // Creates the Captain Bacon client and starts the GUI.
         FXLauncher.launch(FXLauncher.class, args);

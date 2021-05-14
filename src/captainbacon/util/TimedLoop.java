@@ -1,5 +1,8 @@
 package captainbacon.util;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public abstract class TimedLoop extends Thread {
 
     /**
@@ -8,6 +11,7 @@ public abstract class TimedLoop extends Thread {
      */
 
     private boolean loopOver = false;
+    protected final Lock loopLock = new ReentrantLock();
 
     private final int tickRate;
     private double realTickRate;
@@ -33,13 +37,25 @@ public abstract class TimedLoop extends Thread {
     protected abstract void doLoopAction();
 
     /**
-     * This method contains the timed loop.
+     * This method contains the timed loop and is automatically run when the start() method (from Thread)
+     * is called.
      */
     @Override
     public void run() {
+        loopLock.lock();
+
+        // Try to execute the specified loop action tickRate times per second.
         while (!loopOver) {
+            loopLock.unlock();
+
+            startTick();
             doLoopAction();
+            endTick();
+
+            loopLock.lock();
         }
+
+        loopLock.unlock();
     }
 
 
@@ -47,7 +63,9 @@ public abstract class TimedLoop extends Thread {
      * This method notifies the loop that it should end as soon as possible.
      */
     public void endLoop() {
+        loopLock.lock();
         loopOver = true;
+        loopLock.unlock();
     }
 
 

@@ -1,8 +1,11 @@
 package captainbacon.launch;
 
+import captainbacon.gui.fx.FXGUIImpl;
+import captainbacon.gui.render.Renderer;
 import javafx.application.Application;
-import javafx.scene.control.Button;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class FXLauncher extends Application {
 
@@ -24,10 +27,17 @@ public class FXLauncher extends Application {
      * @pre [Do not call. Called by JavaFX.]
      * @post [The view and controller have been created.]
      *
-     * @param window The primary window of the application.
+     * @param stage The primary window of the application.
      */
     @Override
-    public void start(Stage window) {
+    public void start(Stage stage) {
+
+        Renderer renderer = new Renderer(60, new FXGUIImpl(stage));
+        renderer.start();
+        stage.show();
+
+        //TODO: remove this test code
+        stage.setOnCloseRequest(event -> renderer.endLoop());
     }
 
     /**
